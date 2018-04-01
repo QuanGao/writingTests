@@ -55,69 +55,78 @@ const moves1 = [
     {p: 'E', x: 2, y: -2},
     {p: 'E', x: 3, y: -3}
   ]
+
 const connectFour = moves => {
-
-    var players = moves.map(item=>item.p).reduce((a,b)=>{
-        a[b]? a[b]++:a[b]=1;
-        return a;
-    }, {})
-
-    var potentials = Object.keys(players).filter(item=>players[item]>=4);
-    
-    if(potentials.length>0){
-        for(var i=0; i<potentials.length; i++){
-            var pmoves = moves.filter(item=>item.p === potentials[i]).sort((a,b)=>{
-                return +a.x - +b.x === 0? +a.y - +b.y : +a.x - +b.x;
-            });
-            while(pmoves.length>3){   
-                var xStrike = 1, yStrike = 1,dStrikePlus = 1,dStrikeMinus = 1;
-                var records = pmoves.reduce(function(a,b){
-                    if(a.x+1===b.x && a.y+1 === b.y){
-                        dStrikePlus++;
-                        return b;
-                    } else if (a.x+1===b.x && a.y-1 === b.y){
-                        dStrikeMinus++;
-                        return b;
-                    }else if (a.x ===b.x && a.y+1 === b.y){
-                        yStrike++;
-                        return b;
-                    } else if (a.x+1===b.x && a.y === b.y){
-                        xStrike++;
-                        return b;
-                    } else {
-                        return a;
-                    }
-                })
-
-                if(xStrike>=4 || yStrike>=4 || dStrikePlus>=4 || dStrikeMinus>=4){
-                    return potentials[i]
-                }
-                pmoves.shift();           
-            }       
-        }
-        return null;
-    } else {
-        return null;
-    }
+    M = new Set(moves.map(move => [move.x, move.y].join(move.p)));
+    for (move of moves)
+      for ([x, y] of [[0, 1], [1, 0], [1, 1], [1, -1]])
+        if ([1, 2, 3].every(i => M.has([move.x+i*x, move.y+i*y].join(move.p))))
+          return move.p;
+    return null;
 }
+// const connectFour = moves => {
 
-describe("Tests", function() {
-  it("4 in a row", function() {
-    expect(connectFour(moves1)).to.equals('R');
-  });
-  it("4 in a column", function(){
-    expect(connectFour(moves2)).to.equals('Y');
-  });
-  it("4 in diagonal", function(){
-    expect(connectFour(moves3)).to.equals('G');
-  });
-  it("no winner", function(){
-    expect(connectFour(moves4)).to.equals(null);
-  });
-  it("4 in diagonal", function(){
-    expect(connectFour(moves5)).to.equals('E');
-  });
-});
+//     var players = moves.map(item=>item.p).reduce((a,b)=>{
+//         a[b]? a[b]++:a[b]=1;
+//         return a;
+//     }, {})
+
+//     var potentials = Object.keys(players).filter(item=>players[item]>=4);
+    
+//     if(potentials.length>0){
+//         for(var i=0; i<potentials.length; i++){
+//             var pmoves = moves.filter(item=>item.p === potentials[i]).sort((a,b)=>{
+//                 return +a.x - +b.x === 0? +a.y - +b.y : +a.x - +b.x;
+//             });
+//             while(pmoves.length>3){   
+//                 var xStrike = 1, yStrike = 1,dStrikePlus = 1,dStrikeMinus = 1;
+//                 var records = pmoves.reduce(function(a,b){
+//                     if(a.x+1===b.x && a.y+1 === b.y){
+//                         dStrikePlus++;
+//                         return b;
+//                     } else if (a.x+1===b.x && a.y-1 === b.y){
+//                         dStrikeMinus++;
+//                         return b;
+//                     }else if (a.x ===b.x && a.y+1 === b.y){
+//                         yStrike++;
+//                         return b;
+//                     } else if (a.x+1===b.x && a.y === b.y){
+//                         xStrike++;
+//                         return b;
+//                     } else {
+//                         return a;
+//                     }
+//                 })
+
+//                 if(xStrike>=4 || yStrike>=4 || dStrikePlus>=4 || dStrikeMinus>=4){
+//                     return potentials[i]
+//                 }
+//                 pmoves.shift();           
+//             }       
+//         }
+//         return null;
+//     } else {
+//         return null;
+//     }
+// }
+
+// describe("Tests", function() {
+//   it("4 in a row", function() {
+//     expect(connectFour(moves1)).to.equals('R');
+//   });
+//   it("4 in a column", function(){
+//     expect(connectFour(moves2)).to.equals('Y');
+//   });
+//   it("4 in diagonal", function(){
+//     expect(connectFour(moves3)).to.equals('G');
+//   });
+//   it("no winner", function(){
+//     expect(connectFour(moves4)).to.equals(null);
+//   });
+//   it("4 in diagonal", function(){
+//     expect(connectFour(moves5)).to.equals('E');
+//   });
+// });
 
 //-------------------------------------------------------------------------------------
 // function toCamelCase(str){
