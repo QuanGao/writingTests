@@ -1,43 +1,15 @@
 const expect = require("chai").expect;
 
-function EightQueens(strArr) { 
-    while (strArr.length > 0){       
-        const queen = strArr.shift();
-        for(var i=0; i<strArr.length; i++){
-            const item = strArr[i]
-            if(item[1] === queen[1] || item[3]===queen[3] || (item[3]-queen[3])/(item[1]-queen[1])===1){
-                return queen
-            }
-        }           
-    }   
-    return true
+function toCamelCase(str){
+    return str.replace(/([-_]+)([a-zA-Z])/g, function(match, p1, p2, index, string){
+        console.log({match, p1, p2, index, string})
+        return p2.toUpperCase()
+    }) 
 }
 
-var arr1 = ["(2,1)", "(4,2)", "(6,3)", "(8,4)", "(3,5)", "(1,6)", "(7,7)", "(5,8)"] 
-var arr2 = ["(2,1)", "(4,3)", "(6,3)", "(8,4)", "(3,4)", "(1,6)", "(7,7)", "(5,8)"]
-var arr3 = ["(2,1)", "(5,3)", "(6,3)", "(8,4)", "(3,4)", "(1,8)", "(7,7)", "(5,8)"]
+console.log(toCamelCase("the_-_-----stealth-____warrior"));
 
-console.log(EightQueens(arr2))
-
-// function toCamelCase(str){
-//   return str.split(/[-_]/).reduce(function(s, word){
-//     return s+word.charAt(0).toUpperCase()+word.substring(1).toLowerCase();
-//   });
-// }
-// function toCamelCase(str){
-//   str = str.split('');
-//   return str.map(function(el, i){
-//     if(el == '-' || el == '_'){
-//       el = str[i+1].toUpperCase();
-//       str.splice(i+1, 1);
-//     }
-//     return el;
-//   }).join('');
-// }
-
-// console.log(toCamelCase("the-stealth-warrior"));
-//"TheStealthWarrior"
-
+//-------------------------------------------------------------------------------------
 // const connectFour = moves => {
 //     //find out players and number of moves
 //   const players = moves.fil
@@ -115,6 +87,26 @@ console.log(EightQueens(arr2))
 //     Test.assertDeepEquals(connectFour(moves5), 'E', 'Should check 4 in diagonal')
 //   });
 // });
+
+//-------------------------------------------------------------------------------------
+// function EightQueens(strArr) { 
+//     while (strArr.length > 0){       
+//         const queen = strArr.shift();
+//         for(var i=0; i<strArr.length; i++){
+//             const item = strArr[i]
+//             if(item[1] === queen[1] || item[3]===queen[3] || (item[3]-queen[3])/(item[1]-queen[1])===1){
+//                 return queen
+//             }
+//         }           
+//     }   
+//     return true
+// }
+
+// var arr1 = ["(2,1)", "(4,2)", "(6,3)", "(8,4)", "(3,5)", "(1,6)", "(7,7)", "(5,8)"] 
+// var arr2 = ["(2,1)", "(4,3)", "(6,3)", "(8,4)", "(3,4)", "(1,6)", "(7,7)", "(5,8)"]
+// var arr3 = ["(2,1)", "(5,3)", "(6,3)", "(8,4)", "(3,4)", "(1,8)", "(7,7)", "(5,8)"]
+
+// console.log(EightQueens(arr2))
 
 //-------------------------------------------------------------------------------------
 // function persistence(num) {
